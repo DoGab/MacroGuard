@@ -31,3 +31,11 @@ Core Frontend Principles:
 2. Mobile-First UX: Ensure thumb-friendly layouts (48px tap targets). Use overscroll-behavior: none for that native app feel.
 3. Svelte 5 Elegance: Use Runes ($state, $derived, $props) exclusively. Keep components modular and leverage Svelte transitions.
 4. PWA Standards: Focus on the "App-like" feel—user-select: none on buttons and proper meta tags.
+
+Core Go API principles:
+1. Follow strict layering (higher layers are only allowed to import lower layers, not vice versa), no skipping of layers.
+2. Use DTOs and don't reuse models from other layers to not violate the strict layering rules. On top create functions for DTOs that convert from or to another layers DTO if needed.
+3. Use interfaces and dependency injection to be able to test properly.
+4. Make sure that the layers (controller, service, etc.) have tests for the logic.
+5. Make sure the api has no linting issues, use golangci-lint.
+6. Update the apis architecture.md documentation whenever you adjust something meaningful in the architecture.

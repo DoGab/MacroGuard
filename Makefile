@@ -74,7 +74,7 @@ format: format-api format-web
 # Format Go API
 format-api:
 	@echo "✨ Formatting Go API..."
-	@cd apps/api-go && gofmt -w . && goimports -w .
+	@cd apps/api-go && go fmt ./...
 
 # Format frontend
 format-web:
@@ -92,7 +92,7 @@ fix: fix-api fix-web
 # Fix Go API issues
 fix-api:
 	@echo "🔧 Fixing Go API..."
-	@cd apps/api-go && golangci-lint run --fix && gofmt -w . && goimports -w .
+	@cd apps/api-go && golangci-lint run --fix && go fmt ./...
 
 # Fix frontend issues
 fix-web:

@@ -1,10 +1,18 @@
 # MacroGuard
 
+<h1 align="center" style="border-bottom: none">
+    <a href="https://github.com/DoGab/MacroGuard" target="_blank"><img alt="MacroGuard" src=""></a><br>MacroGuard
+</h1>
+
+<p align="center">An AI-powered macro and nutrition scanner application.</p>
+
+<div align="center">
+
 [![Go API CI](https://github.com/DoGab/MacroGuard/actions/workflows/go-ci.yml/badge.svg)](https://github.com/DoGab/MacroGuard/actions/workflows/go-ci.yml)
 [![Web CI](https://github.com/DoGab/MacroGuard/actions/workflows/web-ci.yml/badge.svg)](https://github.com/DoGab/MacroGuard/actions/workflows/web-ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/DoGab/MacroGuard/apps/api-go)](https://goreportcard.com/report/github.com/DoGab/MacroGuard/apps/api-go)
 
-An AI-powered macro and nutrition scanner application.
+</div>
 
 ## Architecture
 

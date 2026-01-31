@@ -29,7 +29,7 @@ TailwindCSS v4 uses a Vite plugin (no `tailwind.config.js`). See `vite.config.ts
 ```typescript
 import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit()]
+  plugins: [tailwindcss(), sveltekit()]
 });
 ```
 
@@ -40,14 +40,14 @@ Custom themes are defined in `src/app.css` using CSS variables:
 ```css
 @import "tailwindcss";
 @plugin "daisyui" {
-	themes:
-		nutrifresh --default,
-		dark --prefersdark;
+  themes:
+    nutrifresh --default,
+    dark --prefersdark;
 }
 
 [data-theme="nutrifresh"] {
-	--color-primary: oklch(62.8% 0.21 142.5);
-	/* ... */
+  --color-primary: oklch(62.8% 0.21 142.5);
+  /* ... */
 }
 ```
 

@@ -68,9 +68,9 @@ Using **Svelte 5 Runes** for reactive state:
 
 ```svelte
 <script lang="ts">
-	let count = $state(0); // Reactive state
-	let doubled = $derived(count * 2); // Derived value
-	let { data } = $props(); // Component props
+  let count = $state(0); // Reactive state
+  let doubled = $derived(count * 2); // Derived value
+  let { data } = $props(); // Component props
 </script>
 ```
 
@@ -94,14 +94,14 @@ Defined in `src/app.css` using TailwindCSS v4 CSS-first approach:
 ```css
 @import "tailwindcss";
 @plugin "daisyui" {
-	themes:
-		nutrifresh --default,
-		dark --prefersdark;
+  themes:
+    nutrifresh --default,
+    dark --prefersdark;
 }
 
 [data-theme="nutrifresh"] {
-	--color-primary: oklch(62.8% 0.21 142.5);
-	/* ... */
+  --color-primary: oklch(62.8% 0.21 142.5);
+  /* ... */
 }
 ```
 
@@ -120,9 +120,9 @@ Defined in `src/app.css` using TailwindCSS v4 CSS-first approach:
 
 ```json
 {
-	"name": "MacroGuard",
-	"display": "standalone",
-	"theme_color": "#22c55e"
+  "name": "MacroGuard",
+  "display": "standalone",
+  "theme_color": "#22c55e"
 }
 ```
 

@@ -10,7 +10,7 @@ import type { paths } from "./schema";
 const API_BASE_URL = import.meta.env.DEV ? "http://localhost:8080" : "";
 
 export const api = createClient<paths>({
-    baseUrl: API_BASE_URL
+  baseUrl: API_BASE_URL
 });
 
 // Re-export types for convenience

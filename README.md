@@ -15,6 +15,10 @@
 ## Features
 
 - **Food Scan** — Scan food with your camera and get nutritional information (calories, protein, carbs, fat) 🚧
+- **Food Log** — Log your food intake manually 📋
+- **Nutrition Goals** — Set your nutrition goals (calories, protein, carbs, fat) 📋
+- **Progress Tracking** — Track your progress over time 📋
+- **Log Hydration** — Log your hydration intake 📋
 
 > **Status:** ✅ Done · 🚧 In Progress · 📋 Planned
 

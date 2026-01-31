@@ -12,6 +12,12 @@
 
 </div>
 
+## Features
+
+- **Food Scan** — Scan food with your camera and get nutritional information (calories, protein, carbs, fat) 🚧
+
+> **Status:** ✅ Done · 🚧 In Progress · 📋 Planned
+
 ## Architecture
 
 See [architecture.md](architecture.md) for system design, component interactions, and detailed documentation links.

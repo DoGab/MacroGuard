@@ -22,9 +22,9 @@ export default defineConfig({
     // Use HTTPS if certs are available (required for camera on non-localhost)
     https: hasLocalCerts
       ? {
-        key: readFileSync(keyFile),
-        cert: readFileSync(certFile)
-      }
+          key: readFileSync(keyFile),
+          cert: readFileSync(certFile)
+        }
       : undefined,
     // Proxy API requests to Go backend
     proxy: {

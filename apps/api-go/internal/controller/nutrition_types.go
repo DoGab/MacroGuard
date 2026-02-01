@@ -19,14 +19,22 @@ type MacroData struct {
 	Fiber    float64 `json:"fiber" example:"5.0" doc:"Fiber in grams"`
 }
 
+// IngredientBody represents a single food component with its nutritional data
+type IngredientBody struct {
+	Name        string     `json:"name" example:"Grilled Chicken Breast" doc:"Ingredient name"`
+	WeightGrams int        `json:"weight_grams" example:"150" doc:"Estimated weight in grams"`
+	Macros      *MacroData `json:"macros" doc:"Nutritional macro information for this ingredient"`
+}
+
 // ScanOutput represents the scan response
 type ScanOutput struct {
 	Body *ScanOutputBody `json:"body"`
 }
 
 type ScanOutputBody struct {
-	FoodName    string     `json:"food_name" example:"Grilled Chicken Salad" doc:"Detected food name"`
-	Confidence  float64    `json:"confidence" example:"0.92" doc:"Detection confidence score"`
-	Macros      *MacroData `json:"macros" doc:"Nutritional macro information"`
-	ServingSize string     `json:"serving_size" example:"1 plate (350g)" doc:"Estimated serving size"`
+	FoodName    string           `json:"food_name" example:"Grilled Chicken Salad" doc:"Detected food name"`
+	Confidence  float64          `json:"confidence" example:"0.92" doc:"Detection confidence score"`
+	Macros      *MacroData       `json:"macros" doc:"Nutritional macro information"`
+	ServingSize string           `json:"serving_size" example:"1 plate (350g)" doc:"Estimated serving size"`
+	Ingredients []IngredientBody `json:"ingredients" doc:"Breakdown of individual ingredients with their macros"`
 }

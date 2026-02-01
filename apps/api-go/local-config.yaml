@@ -5,3 +5,7 @@ logging:
 
 server:
   addr: localhost:8080
+
+dev:
+  mocks:
+    nutrition-service: true  # Set to true for mock data

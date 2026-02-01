@@ -32,15 +32,83 @@ func (c *NutritionMockController) ScanHandler(ctx context.Context, input *ScanIn
 	return &ScanOutput{
 		Body: &ScanOutputBody{
 			FoodName:   "Grilled Chicken Salad",
-			Confidence: 0.92,
+			Confidence: 0.95,
 			Macros: &MacroData{
-				Calories: 400,
-				Protein:  23,
-				Carbs:    65,
-				Fat:      7,
-				Fiber:    5,
+				Calories: 485,
+				Protein:  42,
+				Carbs:    28,
+				Fat:      22,
+				Fiber:    8,
 			},
-			ServingSize: "1 plate (350g)",
+			ServingSize: "1 large bowl (~400g)",
+			Ingredients: []IngredientBody{
+				{
+					Name:        "Grilled Chicken Breast",
+					WeightGrams: 150,
+					Macros: &MacroData{
+						Calories: 248,
+						Protein:  38,
+						Carbs:    0,
+						Fat:      10,
+						Fiber:    0,
+					},
+				},
+				{
+					Name:        "Mixed Greens",
+					WeightGrams: 100,
+					Macros: &MacroData{
+						Calories: 20,
+						Protein:  2,
+						Carbs:    3,
+						Fat:      0,
+						Fiber:    2,
+					},
+				},
+				{
+					Name:        "Cherry Tomatoes",
+					WeightGrams: 60,
+					Macros: &MacroData{
+						Calories: 18,
+						Protein:  1,
+						Carbs:    4,
+						Fat:      0,
+						Fiber:    1,
+					},
+				},
+				{
+					Name:        "Feta Cheese",
+					WeightGrams: 40,
+					Macros: &MacroData{
+						Calories: 105,
+						Protein:  6,
+						Carbs:    2,
+						Fat:      8,
+						Fiber:    0,
+					},
+				},
+				{
+					Name:        "Olive Oil Dressing",
+					WeightGrams: 20,
+					Macros: &MacroData{
+						Calories: 80,
+						Protein:  0,
+						Carbs:    1,
+						Fat:      9,
+						Fiber:    0,
+					},
+				},
+				{
+					Name:        "Cucumber",
+					WeightGrams: 30,
+					Macros: &MacroData{
+						Calories: 5,
+						Protein:  0,
+						Carbs:    1,
+						Fat:      0,
+						Fiber:    0,
+					},
+				},
+			},
 		},
 	}, nil
 }

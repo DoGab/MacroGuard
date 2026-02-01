@@ -59,5 +59,21 @@ func (c *NutritionController) ScanHandler(ctx context.Context, input *ScanInput)
 	}
 	out.Body.ServingSize = resp.ServingSize
 
+	// Map ingredients from service to controller type
+	out.Body.Ingredients = make([]IngredientBody, len(resp.Ingredients))
+	for i, ing := range resp.Ingredients {
+		out.Body.Ingredients[i] = IngredientBody{
+			Name:        ing.Name,
+			WeightGrams: ing.WeightGrams,
+			Macros: &MacroData{
+				Calories: ing.Calories,
+				Protein:  ing.Protein,
+				Carbs:    ing.Carbs,
+				Fat:      ing.Fat,
+				Fiber:    ing.Fiber,
+			},
+		}
+	}
+
 	return out, nil
 }

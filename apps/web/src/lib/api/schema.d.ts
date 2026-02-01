@@ -75,6 +75,21 @@ export interface components {
              */
             type: string;
         };
+        IngredientBody: {
+            /** @description Nutritional macro information for this ingredient */
+            macros: components["schemas"]["MacroData"];
+            /**
+             * @description Ingredient name
+             * @example Grilled Chicken Breast
+             */
+            name: string;
+            /**
+             * Format: int64
+             * @description Estimated weight in grams
+             * @example 150
+             */
+            weight_grams: number;
+        };
         MacroData: {
             /**
              * Format: int64
@@ -137,6 +152,8 @@ export interface components {
              * @example Grilled Chicken Salad
              */
             food_name: string;
+            /** @description Breakdown of individual ingredients with their macros */
+            ingredients: components["schemas"]["IngredientBody"][] | null;
             /** @description Nutritional macro information */
             macros: components["schemas"]["MacroData"];
             /**

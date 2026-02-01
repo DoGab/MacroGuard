@@ -16,4 +16,3 @@ export const api = createClient<paths>({
 
 // Re-export types for convenience
 export type { paths, components, operations } from "./schema";
-

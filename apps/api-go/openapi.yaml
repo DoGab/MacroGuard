@@ -59,6 +59,28 @@ components:
           format: uri
           type: string
       type: object
+    IngredientBody:
+      additionalProperties: false
+      properties:
+        macros:
+          $ref: "#/components/schemas/MacroData"
+          description: Nutritional macro information for this ingredient
+        name:
+          description: Ingredient name
+          examples:
+            - Grilled Chicken Breast
+          type: string
+        weight_grams:
+          description: Estimated weight in grams
+          examples:
+            - 150
+          format: int64
+          type: integer
+      required:
+        - name
+        - weight_grams
+        - macros
+      type: object
     MacroData:
       additionalProperties: false
       properties:
@@ -139,6 +161,13 @@ components:
           examples:
             - Grilled Chicken Salad
           type: string
+        ingredients:
+          description: Breakdown of individual ingredients with their macros
+          items:
+            $ref: "#/components/schemas/IngredientBody"
+          type:
+            - array
+            - "null"
         macros:
           $ref: "#/components/schemas/MacroData"
           description: Nutritional macro information
@@ -152,6 +181,7 @@ components:
         - confidence
         - macros
         - serving_size
+        - ingredients
       type: object
 info:
   title: MacroGuard API

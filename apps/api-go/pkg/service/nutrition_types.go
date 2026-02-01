@@ -18,11 +18,37 @@ func (s *ScanInput) LogValue() slog.Value {
 	return slog.GroupValue(attrs...)
 }
 
+// Ingredient represents a single food component with its nutritional data
+// Note: Macro fields are inlined to avoid Genkit schema bug with repeated types
+type Ingredient struct {
+	Name        string  `json:"name"`
+	WeightGrams int     `json:"weight_grams"`
+	Calories    int     `json:"calories"`
+	Protein     float64 `json:"protein"`
+	Carbs       float64 `json:"carbs"`
+	Fat         float64 `json:"fat"`
+	Fiber       float64 `json:"fiber"`
+}
+
+// LogValue implements slog.LogValuer for structured logging
+func (i *Ingredient) LogValue() slog.Value {
+	return slog.GroupValue(
+		slog.String("name", i.Name),
+		slog.Int("weight_grams", i.WeightGrams),
+		slog.Int("calories", i.Calories),
+		slog.Float64("protein", i.Protein),
+		slog.Float64("carbs", i.Carbs),
+		slog.Float64("fat", i.Fat),
+		slog.Float64("fiber", i.Fiber),
+	)
+}
+
 type ScanOutput struct {
-	FoodName    string     `json:"food_name"`
-	Confidence  float64    `json:"confidence"`
-	Macros      *MacroData `json:"macros"`
-	ServingSize string     `json:"serving_size"`
+	FoodName    string       `json:"food_name"`
+	Confidence  float64      `json:"confidence"`
+	Macros      *MacroData   `json:"macros"`
+	ServingSize string       `json:"serving_size"`
+	Ingredients []Ingredient `json:"ingredients"`
 }
 
 // LogValue implements slog.LogValuer for structured logging
@@ -32,6 +58,7 @@ func (s *ScanOutput) LogValue() slog.Value {
 		slog.Float64("confidence", s.Confidence),
 		slog.String("serving_size", s.ServingSize),
 		slog.Any("macros", s.Macros),
+		slog.Any("ingredients", s.Ingredients),
 	)
 }
 

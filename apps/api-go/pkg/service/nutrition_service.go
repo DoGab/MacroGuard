@@ -49,30 +49,53 @@ func (s *NutritionService) ScanFood(ctx context.Context, input *ScanInput) (*Sca
 }
 
 func (s *NutritionService) foodScanFlow(ctx context.Context, input *ScanInput) (*ScanOutput, error) {
-	// Create a prompt based on the input
+	systemPrompt := `You are an expert nutritionist and food recognition AI.
+Analyze the provided food image and estimate its nutritional content.
 
-	systemPrompt := `You are a nutritionist. You are given a picture (base64 encoded) of a meal/food and optionally a description of the food item.
-		If a description is provided, use it to help you understand the food item better.
-		You need to return the nutritional information for that food item.
-    `
+ANALYSIS STEPS:
+1. Identify all visible food items, ingredients, and portion sizes
+2. For each ingredient, estimate its weight in grams and calculate individual macros
+3. Consider cooking methods (fried, grilled, steamed, etc.) as they affect calories
+4. Estimate serving sizes relative to standard references (e.g., a fist ≈ 1 cup, palm ≈ 3oz protein)
+5. Sum all ingredient macros to get the total meal macros
 
-	description := ""
-	if input.Description != nil {
-		description = *input.Description
+OUTPUT REQUIREMENTS:
+- food_name: Overall meal/dish name
+- confidence: How clearly the food is identifiable (0.0-1.0)
+- serving_size: Total serving in grams or standard units (e.g., "1 plate, ~350g")
+- macros: Total combined macros for the entire meal
+- ingredients: Array of each component with:
+  - name: Ingredient name (e.g., "Grilled Chicken Breast")
+  - weight_grams: Estimated weight in grams
+  - macros: Individual macros for this ingredient
+
+GUIDELINES:
+- Always break down complex meals into their visible components
+- Use reasonable middle-ground estimates when portions are unclear
+- Include fiber in macro calculations when applicable`
+
+	// Build the user prompt text
+	userPrompt := "Analyze this food image and provide nutritional information."
+	if input.Description != nil && *input.Description != "" {
+		userPrompt = fmt.Sprintf("Analyze this food image. Additional context: %s", *input.Description)
 	}
 
-	prompt := fmt.Sprintf(`Analyze the following food picture:
-			Image: %s
-			Description: %s`, input.ImageBase64, description)
+	// Build the image data URL for multimodal input
+	imageDataURL := "data:image/jpeg;base64," + input.ImageBase64
 
-	// Generate structured recipe data using the same schema
-	recipe, _, err := genkit.GenerateData[ScanOutput](ctx, s.genkit,
+	// Generate structured output using proper multimodal input
+	result, _, err := genkit.GenerateData[ScanOutput](ctx, s.genkit,
 		ai.WithSystem(systemPrompt),
-		ai.WithPrompt(prompt),
+		ai.WithMessages(
+			ai.NewUserMessage(
+				ai.NewMediaPart("image/jpeg", imageDataURL),
+				ai.NewTextPart(userPrompt),
+			),
+		),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("failed to generate recipe: %w", err)
+		return nil, fmt.Errorf("failed to analyze food image: %w", err)
 	}
 
-	return recipe, nil
+	return result, nil
 }

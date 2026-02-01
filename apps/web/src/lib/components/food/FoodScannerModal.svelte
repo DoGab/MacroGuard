@@ -166,7 +166,7 @@
     onclick={handleClose}
   >
     <div
-      class="bg-base-100 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+      class="bg-base-100 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col"
       onclick={(e) => e.stopPropagation()}
     >
       <!-- Header -->
@@ -184,10 +184,10 @@
       </div>
 
       <!-- Content -->
-      <div class="p-4">
+      <div class="p-4 overflow-y-auto flex-1">
         {#if scanResult}
           <!-- Results View -->
-          <ScanResultsDisplay result={scanResult} onClose={handleClose} />
+          <ScanResultsDisplay result={scanResult} />
         {:else if showCamera}
           <!-- Camera View -->
           <div class="space-y-4">
@@ -285,6 +285,14 @@
           </div>
         {/if}
       </div>
+
+      <!-- Fixed Footer (only for scan results) -->
+      {#if scanResult}
+        <div class="p-4 border-t border-base-200 flex gap-2 shrink-0">
+          <button class="btn btn-outline flex-1" onclick={handleClose}> Close </button>
+          <button class="btn btn-primary flex-1" disabled> Add to Log </button>
+        </div>
+      {/if}
     </div>
   </div>
 {/if}

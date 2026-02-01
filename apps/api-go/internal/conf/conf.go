@@ -53,6 +53,15 @@ const (
 	OpenAPIFormatDefault = "yaml"
 	// OpenAPIFormatHelp is the help message for the OpenAPI format flag
 	OpenAPIFormatHelp = "Set the OpenAPI format"
+
+	// Dev Mocks
+	devKey = "dev."
+	// DevMocksNutritionServiceArg is the flag name for enabling mock nutrition service
+	DevMocksNutritionServiceArg = devKey + "mocks.nutrition-service"
+	// DevMocksNutritionServiceDefault is the default value for mock nutrition service
+	DevMocksNutritionServiceDefault = false
+	// DevMocksNutritionServiceHelp is the help message for the mock nutrition service flag
+	DevMocksNutritionServiceHelp = "Enable mock nutrition service for testing"
 )
 
 func RegisterFlags(cmd *cobra.Command) {
@@ -69,6 +78,9 @@ func RegisterFlags(cmd *cobra.Command) {
 	// OpenAPI
 	pflags.String(OpenAPIPathArg, OpenAPIPathDefault, OpenAPIPathHelp)
 	pflags.String(OpenAPIFormatArg, OpenAPIFormatDefault, OpenAPIFormatHelp)
+
+	// Dev Mocks
+	pflags.Bool(DevMocksNutritionServiceArg, DevMocksNutritionServiceDefault, DevMocksNutritionServiceHelp)
 
 	_ = viper.BindPFlags(pflags)
 }

@@ -37,13 +37,16 @@ func ServerEntryPoint(cmd *cobra.Command, _ []string) error {
 		genkit.WithDefaultModel("googleai/gemini-2.5-flash"),
 	)
 
-	svc := service.NewNutritionService(g)
-	ctrl := controller.NewNutritionController(svc)
-
 	api, shutdown := server.NewServer(serverAddr)
 
-	// register API endpoints
-	api.RegisterAPI(ctrl)
+	// Register nutrition controller (mock or real based on config)
+	if viper.GetBool(conf.DevMocksNutritionServiceArg) {
+		slog.Info("🧪 Using MOCK nutrition controller")
+		api.RegisterAPI(controller.NewNutritionMockController())
+	} else {
+		svc := service.NewNutritionService(g)
+		api.RegisterAPI(controller.NewNutritionController(svc))
+	}
 
 	// start the server
 	err := api.Serve(ctx)

@@ -125,9 +125,9 @@ MacroGuard/
 
 ## Future Enhancements
 
-- [ ] Genkit AI integration with Gemini/OpenAI
+- [x] Genkit AI integration with Gemini/OpenAI
 - [ ] User authentication
 - [ ] Scan history persistence
-- [ ] TypeScript API client generation from OpenAPI
+- [x] TypeScript API client generation from OpenAPI
 - [ ] Docker containerization
 - [ ] CI/CD pipeline

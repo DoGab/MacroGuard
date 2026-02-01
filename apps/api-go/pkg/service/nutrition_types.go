@@ -25,10 +25,31 @@ type ScanOutput struct {
 	ServingSize string     `json:"serving_size"`
 }
 
+// LogValue implements slog.LogValuer for structured logging
+func (s *ScanOutput) LogValue() slog.Value {
+	return slog.GroupValue(
+		slog.String("food_name", s.FoodName),
+		slog.Float64("confidence", s.Confidence),
+		slog.String("serving_size", s.ServingSize),
+		slog.Any("macros", s.Macros),
+	)
+}
+
 type MacroData struct {
 	Calories int     `json:"calories"`
 	Protein  float64 `json:"protein"`
 	Carbs    float64 `json:"carbs"`
 	Fat      float64 `json:"fat"`
 	Fiber    float64 `json:"fiber"`
+}
+
+// LogValue implements slog.LogValuer for structured logging
+func (m *MacroData) LogValue() slog.Value {
+	return slog.GroupValue(
+		slog.Int("calories", m.Calories),
+		slog.Float64("protein", m.Protein),
+		slog.Float64("carbs", m.Carbs),
+		slog.Float64("fat", m.Fat),
+		slog.Float64("fiber", m.Fiber),
+	)
 }

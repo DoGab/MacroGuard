@@ -14,6 +14,7 @@ import (
 	"github.com/dogab/macroguard/api/pkg/service"
 
 	"github.com/firebase/genkit/go/genkit"
+	"github.com/firebase/genkit/go/plugins/googlegenai"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -25,16 +26,18 @@ func ServerEntryPoint(cmd *cobra.Command, _ []string) error {
 	serverShutdownContext, stop := signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
+	serverAddr := viper.GetString(conf.ServerAddrArg)
+
 	// Initialize Genkit
 	// This is the base initialization block. Add LLM plugins here later:
 	// - Google Gemini: genkit.WithPlugins(googlegenai.NewPlugin(ctx, nil))
 	// - OpenAI: genkit.WithPlugins(openai.NewPlugin(ctx, nil))
-	g := genkit.Init(ctx)
-	_ = g // Will be used for AI flows later
+	g := genkit.Init(serverShutdownContext,
+		genkit.WithPlugins(&googlegenai.GoogleAI{}),
+		genkit.WithDefaultModel("googleai/gemini-2.5-flash"),
+	)
 
-	serverAddr := viper.GetString(conf.ServerAddrArg)
-
-	svc := service.NewNutritionService()
+	svc := service.NewNutritionService(g)
 	ctrl := controller.NewNutritionController(svc)
 
 	api, shutdown := server.NewServer(serverAddr)

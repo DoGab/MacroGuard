@@ -1,8 +1,8 @@
-# MacroGuard Web Architecture
+# VitalStack Web Architecture
 
 ## Overview
 
-The MacroGuard web frontend is a **SvelteKit** application with a mobile-first, PWA-ready design. It uses TailwindCSS v4 for styling and DaisyUI v5 for UI components.
+The VitalStack web frontend is a **SvelteKit** application with a mobile-first, PWA-ready design. It uses TailwindCSS v4 for styling and DaisyUI v5 for UI components.
 
 ## Tech Stack
 
@@ -120,7 +120,7 @@ Defined in `src/app.css` using TailwindCSS v4 CSS-first approach:
 
 ```json
 {
-  "name": "MacroGuard",
+  "name": "VitalStack",
   "display": "standalone",
   "theme_color": "#22c55e"
 }

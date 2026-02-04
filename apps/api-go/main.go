@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/dogab/macroguard/api/cmd"
+	"github.com/dogab/vitalstack/api/cmd"
 )
 
 func main() {

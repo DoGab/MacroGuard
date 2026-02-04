@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/dogab/macroguard/api/pkg/service"
+	"github.com/dogab/vitalstack/api/pkg/service"
 
 	"github.com/danielgtaylor/huma/v2"
 )

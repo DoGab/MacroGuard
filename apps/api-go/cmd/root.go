@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/dogab/macroguard/api/internal/conf"
+	"github.com/dogab/vitalstack/api/internal/conf"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
@@ -25,9 +25,9 @@ func Execute() (err error) {
 	ctx := context.Background()
 
 	rootCmd := &cobra.Command{
-		Use:   "MacroGuard",
-		Short: "MacroGuard API",
-		Long:  `MacroGuard is a fullstack sample web application in go`,
+		Use:   "VitalStack",
+		Short: "VitalStack API",
+		Long:  `VitalStack is a fullstack sample web application in go`,
 		RunE:  ServerEntryPoint,
 	}
 

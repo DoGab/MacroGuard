@@ -184,7 +184,7 @@ components:
         - ingredients
       type: object
 info:
-  title: MacroGuard API
+  title: VitalStack API
   version: 1.0.0
 openapi: 3.1.0
 paths:

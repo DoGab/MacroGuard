@@ -8,10 +8,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/dogab/macroguard/api/internal/conf"
-	"github.com/dogab/macroguard/api/internal/controller"
-	"github.com/dogab/macroguard/api/internal/server"
-	"github.com/dogab/macroguard/api/pkg/service"
+	"github.com/dogab/vitalstack/api/internal/conf"
+	"github.com/dogab/vitalstack/api/internal/controller"
+	"github.com/dogab/vitalstack/api/internal/server"
+	"github.com/dogab/vitalstack/api/pkg/service"
 
 	"github.com/firebase/genkit/go/genkit"
 	"github.com/firebase/genkit/go/plugins/googlegenai"
@@ -54,7 +54,7 @@ func ServerEntryPoint(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("failed to start server: %w", err)
 	}
 
-	slog.Info("🚀 MacroGuard API starting", "address", serverAddr)
+	slog.Info("🚀 VitalStack API starting", "address", serverAddr)
 	slog.Info("📚 API Documentation available", "address", serverAddr+"/docs")
 
 	<-serverShutdownContext.Done()
@@ -66,7 +66,7 @@ func ServerEntryPoint(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("failed to shutdown server: %w", err)
 	}
 
-	slog.Info("MacroGuard API stopped")
+	slog.Info("VitalStack API stopped")
 
 	return nil
 }

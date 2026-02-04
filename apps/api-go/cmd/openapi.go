@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/dogab/macroguard/api/internal/conf"
-	"github.com/dogab/macroguard/api/internal/controller"
-	"github.com/dogab/macroguard/api/internal/server"
+	"github.com/dogab/vitalstack/api/internal/conf"
+	"github.com/dogab/vitalstack/api/internal/controller"
+	"github.com/dogab/vitalstack/api/internal/server"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

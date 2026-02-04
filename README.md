@@ -1,14 +1,14 @@
 <h1 align="center" style="border-bottom: none">
-    <a href="https://github.com/DoGab/MacroGuard" target="_blank"><img alt="MacroGuard" src=""></a><br>MacroGuard
+    <a href="https://github.com/DoGab/VitalStack" target="_blank"><img alt="VitalStack" src=""></a><br>VitalStack
 </h1>
 
 <p align="center">An AI-powered macro and nutrition scanner application.</p>
 
 <div align="center">
 
-[![Go API CI](https://github.com/DoGab/MacroGuard/actions/workflows/go-ci.yml/badge.svg)](https://github.com/DoGab/MacroGuard/actions/workflows/go-ci.yml)
-[![Web CI](https://github.com/DoGab/MacroGuard/actions/workflows/web-ci.yml/badge.svg)](https://github.com/DoGab/MacroGuard/actions/workflows/web-ci.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/DoGab/MacroGuard/apps/api-go)](https://goreportcard.com/report/github.com/DoGab/MacroGuard/apps/api-go)
+[![Go API CI](https://github.com/DoGab/VitalStack/actions/workflows/go-ci.yml/badge.svg)](https://github.com/DoGab/VitalStack/actions/workflows/go-ci.yml)
+[![Web CI](https://github.com/DoGab/VitalStack/actions/workflows/web-ci.yml/badge.svg)](https://github.com/DoGab/VitalStack/actions/workflows/web-ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/DoGab/VitalStack/apps/api-go)](https://goreportcard.com/report/github.com/DoGab/VitalStack/apps/api-go)
 
 </div>
 

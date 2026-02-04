@@ -1,8 +1,8 @@
-# MacroGuard API Architecture
+# VitalStack API Architecture
 
 ## Overview
 
-The MacroGuard API is a Go-based REST API following a **layered architecture** pattern. It uses Gin as the HTTP router, Huma for type-safe OpenAPI generation, and is designed for future Genkit AI integration.
+The VitalStack API is a Go-based REST API following a **layered architecture** pattern. It uses Gin as the HTTP router, Huma for type-safe OpenAPI generation, and is designed for future Genkit AI integration.
 
 ## Directory Structure
 

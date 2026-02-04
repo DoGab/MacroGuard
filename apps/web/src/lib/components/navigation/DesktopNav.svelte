@@ -19,7 +19,7 @@
     <a href="/" class="btn btn-ghost text-xl font-bold gap-2">
       <Utensils class="w-6 h-6 text-primary" />
       <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-        MacroGuard
+        VitalStack
       </span>
     </a>
   </div>

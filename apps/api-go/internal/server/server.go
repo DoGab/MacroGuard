@@ -75,7 +75,7 @@ func NewServer(addr string, opts ...Option) (*Server, ShutdownFunc) {
 			ReadHeaderTimeout: DefaultReadHeaderTimeout,
 		},
 		router:  router,
-		name:    "MacroGuard API",
+		name:    "VitalStack API",
 		version: "1.0.0",
 	}
 
@@ -88,7 +88,7 @@ func NewServer(addr string, opts ...Option) (*Server, ShutdownFunc) {
 	s.registerDiagnosticEndpoints()
 
 	shutdownFunc := func(ctx context.Context) error {
-		slog.Info("MacroGuard API shutting down...")
+		slog.Info("VitalStack API shutting down...")
 		if err := s.srv.Shutdown(ctx); err != nil {
 			return err
 		}

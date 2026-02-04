@@ -1,5 +1,5 @@
 /**
- * Type-safe API client for MacroGuard backend
+ * Type-safe API client for VitalStack backend
  * Generated types come from openapi.yaml via openapi-typescript
  *
  * In development, Vite proxies /api/* to the backend (see vite.config.ts)

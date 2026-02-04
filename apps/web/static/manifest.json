@@ -1,6 +1,6 @@
 {
-  "name": "MacroGuard",
-  "short_name": "MacroGuard",
+  "name": "VitalStack",
+  "short_name": "VitalStack",
   "description": "AI-powered food nutrition scanner. Snap a photo to get instant macro information.",
   "start_url": "/",
   "display": "standalone",

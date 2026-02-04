@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-  <title>MacroGuard - AI Food Nutrition Scanner</title>
+  <title>VitalStack - AI Food Nutrition Scanner</title>
   <meta
     name="description"
     content="Scan your food with AI to instantly get nutritional macros. Track calories, protein, carbs, and fat with just a photo."

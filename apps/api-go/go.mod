@@ -1,4 +1,4 @@
-module github.com/dogab/macroguard/api
+module github.com/dogab/vitalstack/api
 
 go 1.24.1
 

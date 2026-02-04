@@ -1,6 +1,6 @@
-# MacroGuard Web Frontend
+# VitalStack Web Frontend
 
-SvelteKit frontend for the MacroGuard food nutrition scanner.
+SvelteKit frontend for the VitalStack food nutrition scanner.
 
 📄 **Architecture:** See [architecture.md](architecture.md) for design patterns, structure, and theme documentation.
 

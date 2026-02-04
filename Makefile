@@ -1,4 +1,4 @@
-# MacroGuard Development
+# VitalStack Development
 
 # Simple color scheme
 CYAN := \033[36m
@@ -33,7 +33,7 @@ gen-api-client:
 
 # Start both backend and frontend concurrently
 dev:
-	@echo "🚀 Starting MacroGuard development servers..."
+	@echo "🚀 Starting VitalStack development servers..."
 	@make -j2 dev-api dev-web
 
 # Start Go backend with Air hot reload
@@ -135,7 +135,7 @@ clean:
 
 # Show available commands
 help:
-	@printf "\n${CYAN}MacroGuard Development Commands${RESET}\n"
+	@printf "\n${CYAN}VitalStack Development Commands${RESET}\n"
 	@printf "$(DIM)────────────────────────────────────$(RESET)\n"
 	@printf "\n${CYAN}Development${RESET}\n"
 	@printf "  make dev           $(ARROW) Start both backend and frontend\n"

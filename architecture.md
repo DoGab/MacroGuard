@@ -1,14 +1,14 @@
-# MacroGuard Architecture
+# VitalStack Architecture
 
-This document provides a high-level overview of the MacroGuard system architecture.
+This document provides a high-level overview of the VitalStack system architecture.
 
 ## System Overview
 
-MacroGuard is a **monorepo** containing a Go backend API and a SvelteKit frontend, designed to analyze food images and return nutritional macro information using AI.
+VitalStack is a **monorepo** containing a Go backend API and a SvelteKit frontend, designed to analyze food images and return nutritional macro information using AI.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                           MacroGuard                                │
+│                           VitalStack                                │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │  ┌──────────────────────┐         ┌──────────────────────┐          │
@@ -106,7 +106,7 @@ make dev-api   # Backend on :8080
 ## Project Structure
 
 ```
-MacroGuard/
+VitalStack/
 ├── apps/
 │   ├── api-go/              # Go backend
 │   │   ├── architecture.md  # Backend architecture docs

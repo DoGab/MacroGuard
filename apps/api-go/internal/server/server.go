@@ -41,6 +41,24 @@ type Server struct {
 	router *gin.Engine
 
 	huma huma.API
+
+	// Configuration
+	allowedOrigins []string
+	devMode        bool
+}
+
+// WithAllowedOrigins sets the allowed CORS origins
+func WithAllowedOrigins(origins []string) Option {
+	return func(s *Server) {
+		s.allowedOrigins = origins
+	}
+}
+
+// WithDevMode enables development mode (allows all CORS origins)
+func WithDevMode(enabled bool) Option {
+	return func(s *Server) {
+		s.devMode = enabled
+	}
 }
 
 // NewServer creates a new server instance
@@ -51,16 +69,30 @@ func NewServer(addr string, opts ...Option) (*Server, ShutdownFunc) {
 	// Allow large request bodies for image uploads (10MB)
 	router.MaxMultipartMemory = DefaultMaxMultipartMemory
 
-	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{
-			"http://localhost:5173",
-			"http://127.0.0.1:5173",
-			"https://localhost:5173",
-			"https://127.0.0.1:5173",
+	s := &Server{
+		srv: &http.Server{
+			Addr:              addr,
+			Handler:           router,
+			ReadHeaderTimeout: DefaultReadHeaderTimeout,
 		},
+		router:         router,
+		name:           "VitalStack API",
+		version:        "1.0.0",
+		allowedOrigins: []string{"http://localhost:3000"}, // Default
+		devMode:        false,
+	}
+
+	// Apply options before configuring CORS
+	for _, opt := range opts {
+		opt(s)
+	}
+
+	// Configure CORS based on options
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: s.allowedOrigins,
 		AllowOriginFunc: func(origin string) bool {
-			// Allow any local network origin for mobile testing
-			return true
+			// In dev mode, allow any origin for testing
+			return s.devMode
 		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
@@ -68,23 +100,7 @@ func NewServer(addr string, opts ...Option) (*Server, ShutdownFunc) {
 		AllowCredentials: true,
 	}))
 
-	s := &Server{
-		srv: &http.Server{
-			Addr:              addr,
-			Handler:           router,
-			ReadHeaderTimeout: DefaultReadHeaderTimeout,
-		},
-		router:  router,
-		name:    "VitalStack API",
-		version: "1.0.0",
-	}
-
 	s.huma = newHumaAPI(s)
-
-	for _, opt := range opts {
-		opt(s)
-	}
-
 	s.registerDiagnosticEndpoints()
 
 	shutdownFunc := func(ctx context.Context) error {

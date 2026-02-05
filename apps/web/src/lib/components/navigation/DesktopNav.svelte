@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { Home, Clock, MessageCircle, User, Plus, Utensils } from "lucide-svelte";
+  import { Home, Clock, MessageCircle, User, Plus } from "lucide-svelte";
   import ThemeSwap from "$lib/components/ui/ThemeSwap.svelte";
+  import logoColor from "$lib/assets/logo/logo_text.svg";
 
   let { addMenuOpen = $bindable() } = $props();
 
@@ -17,10 +18,7 @@
 >
   <div class="navbar-start">
     <a href="/" class="btn btn-ghost text-xl font-bold gap-2">
-      <Utensils class="w-6 h-6 text-primary" />
-      <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-        VitalStack
-      </span>
+      <img src={logoColor} alt="VitalStack Logo" class="w-45 h-45" />
     </a>
   </div>
 

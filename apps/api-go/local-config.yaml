@@ -5,7 +5,13 @@ logging:
 
 server:
   addr: localhost:8080
+  origin:
+    - http://localhost:5173
+    - http://127.0.0.1:5173
+    - https://localhost:5173
+    - http://localhost:3000
 
 dev:
+  mode.enabled: true
   mocks:
     nutrition-service: true  # Set to true for mock data

@@ -1,0 +1,22 @@
+# =====================================
+# VitalStack - Docker Compose LOCAL Override
+# =====================================
+# Use with: docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
+
+services:
+  api:
+    environment:
+      # Logging
+      LOGGING_LEVEL: debug
+      LOGGING_ENCODING: logfmt
+      # Server - allow all origins for local testing
+      SERVER_ORIGIN: "http://localhost:3000"
+      # Development mode
+      DEV_MODE_ENABLED: "true"
+      DEV_MOCKS_NUTRITION_SERVICE: "true"
+
+  web:
+    environment:
+      # Local URLs
+      ORIGIN: http://localhost:3000
+      PUBLIC_API_URL: http://localhost:8080

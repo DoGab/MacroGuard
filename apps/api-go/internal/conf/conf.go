@@ -33,10 +33,17 @@ const (
 	// ServerAddrHelp is the help message for the server address flag
 	ServerAddrHelp = "Set the server address (format: host:port)"
 
+	// ServerOriginArg is the flag name for the server origin
+	ServerOriginArg = serverKey + "origin"
+	// ServerOriginHelp is the help message for the server origin flag
+	ServerOriginHelp = "A list of origins for the server (format: host:port), multiple origins can be set"
+
 	// ServerShutdownTimeoutArg is the flag name for the server shutdown grace period
 	ServerShutdownTimeoutArg = serverKey + "shutdown-timeout"
 	// ServerShutdownTimeoutDefault is the default server shutdown grace period
 	ServerShutdownTimeoutDefault = 60 * time.Second
+	// ServerShutdownTimeoutHelp is the help message for the server shutdown grace period
+	ServerShutdownTimeoutHelp = "Duration to wait for the server to shutdown gracefully"
 
 	// OpenAPI
 	openapiKey = "openapi."
@@ -56,12 +63,24 @@ const (
 
 	// Dev Mocks
 	devKey = "dev."
+	// DevModeEnabledArg is the flag name for enabling dev mode
+	DevModeEnabledArg = devKey + "mode.enabled"
+	// DevModeEnabledDefault is the default value for dev mode
+	DevModeEnabledDefault = false
+	// DevModeEnabledHelp is the help message for the dev mode flag
+	DevModeEnabledHelp = "Enable dev mode"
+
 	// DevMocksNutritionServiceArg is the flag name for enabling mock nutrition service
 	DevMocksNutritionServiceArg = devKey + "mocks.nutrition-service"
 	// DevMocksNutritionServiceDefault is the default value for mock nutrition service
 	DevMocksNutritionServiceDefault = false
 	// DevMocksNutritionServiceHelp is the help message for the mock nutrition service flag
 	DevMocksNutritionServiceHelp = "Enable mock nutrition service for testing"
+)
+
+var (
+	// ServerOriginDefault is the default server origin
+	ServerOriginDefault = []string{"http://localhost:3000"}
 )
 
 func RegisterFlags(cmd *cobra.Command) {
@@ -73,13 +92,15 @@ func RegisterFlags(cmd *cobra.Command) {
 
 	// Server
 	pflags.String(ServerAddrArg, ServerAddrDefault, ServerAddrHelp)
-	pflags.Duration(ServerShutdownTimeoutArg, ServerShutdownTimeoutDefault, "Duration to wait for the server to shutdown gracefully")
+	pflags.StringSlice(ServerOriginArg, ServerOriginDefault, ServerOriginHelp)
+	pflags.Duration(ServerShutdownTimeoutArg, ServerShutdownTimeoutDefault, ServerShutdownTimeoutHelp)
 
 	// OpenAPI
 	pflags.String(OpenAPIPathArg, OpenAPIPathDefault, OpenAPIPathHelp)
 	pflags.String(OpenAPIFormatArg, OpenAPIFormatDefault, OpenAPIFormatHelp)
 
 	// Dev Mocks
+	pflags.Bool(DevModeEnabledArg, DevModeEnabledDefault, DevModeEnabledHelp)
 	pflags.Bool(DevMocksNutritionServiceArg, DevMocksNutritionServiceDefault, DevMocksNutritionServiceHelp)
 
 	_ = viper.BindPFlags(pflags)

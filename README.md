@@ -1,5 +1,5 @@
 <h1 align="center" style="border-bottom: none">
-    <a href="https://github.com/DoGab/VitalStack" target="_blank"><img alt="VitalStack" src=""></a><br>VitalStack
+    <a href="https://github.com/DoGab/VitalStack" target="_blank"><img alt="VitalStack" src="./apps/web/src/lib/assets/logo/logo_text.svg"></a><br>VitalStack
 </h1>
 
 <p align="center">An AI-powered macro and nutrition scanner application.</p>
@@ -21,6 +21,13 @@
 - **Log Hydration** — Log your hydration intake 📋
 
 > **Status:** ✅ Done · 🚧 In Progress · 📋 Planned
+
+## Technical features
+
+- **Containerized** - The application is containerized using Docker and Docker Compose.
+- **Configuration** - Configuration can happen via environment variables or a config file.
+- **Logging** - The application uses structured logging with logfmt and JSON formats.
+- **Health Checks** - The application has health checks for both the frontend and backend.
 
 ## Architecture
 

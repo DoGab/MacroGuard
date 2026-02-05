@@ -37,7 +37,15 @@ func ServerEntryPoint(cmd *cobra.Command, _ []string) error {
 		genkit.WithDefaultModel("googleai/gemini-2.5-flash"),
 	)
 
-	api, shutdown := server.NewServer(serverAddr)
+	// Get CORS and dev mode configuration
+	allowedOrigins := viper.GetStringSlice(conf.ServerOriginArg)
+	devMode := viper.GetBool(conf.DevModeEnabledArg)
+
+	api, shutdown := server.NewServer(
+		serverAddr,
+		server.WithAllowedOrigins(allowedOrigins),
+		server.WithDevMode(devMode),
+	)
 
 	// Register nutrition controller (mock or real based on config)
 	if viper.GetBool(conf.DevMocksNutritionServiceArg) {

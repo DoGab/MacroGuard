@@ -24,10 +24,13 @@
 
 ## Technical features
 
-- **Containerized** - The application is containerized using Docker and Docker Compose.
-- **Configuration** - Configuration can happen via environment variables or a config file.
-- **Logging** - The application uses structured logging with logfmt and JSON formats.
-- **Health Checks** - The application has health checks for both the frontend and backend.
+- **Containerized** - The application is containerized using Docker and Docker Compose. ✅
+- **Configuration** - Configuration can happen via environment variables or a config file. ✅
+- **Logging** - The application uses structured logging with logfmt and JSON formats. ✅
+- **Health Checks** - The application has health checks for both the frontend and backend. 📋
+- **Authentication** - The application has authentication using JWT. 📋
+
+> **Status:** ✅ Done · 🚧 In Progress · 📋 Planned
 
 ## Architecture
 

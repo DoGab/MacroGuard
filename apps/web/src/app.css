@@ -2,7 +2,8 @@
 
 @plugin "daisyui" {
   themes:
-    biohacker --default,
+    darkorganic --default,
+    biohacker,
     nutrifresh,
     organic,
     clinical;
@@ -92,6 +93,52 @@
 
   --radius-selector: 0px;
   /* Sharp edges for tech/cyber feel */
+}
+
+/* Theme 2b: Dark Organic
+  "Forest at Night"
+  Best for: Premium, Wellness, Warm Dark Mode
+  A dark theme with the same DNA as Organic Premium
+*/
+[data-theme="darkorganic"] {
+  color-scheme: dark;
+
+  /* Deep Arboretum background */
+  --color-base-100: #1b3022;
+  --color-base-200: #243b2c;
+  --color-base-300: #2d4a37;
+  --color-base-content: #f9f7f2;
+  /* Cream text */
+
+  /* Burnished Gold primary */
+  --color-primary: #c5a059;
+  --color-primary-content: #1b3022;
+  /* Dark text on gold */
+
+  /* Leaf Green secondary */
+  --color-secondary: #4e8056;
+  --color-secondary-content: #f9f7f2;
+
+  /* Terracotta accent */
+  --color-accent: #d65a31;
+  --color-accent-content: #f9f7f2;
+
+  /* Muted sage for secondary text */
+  --color-neutral: #8b9a8e;
+  --color-neutral-content: #1b3022;
+
+  /* Earthy state colors */
+  --color-info: #5f8d8b;
+  --color-info-content: #f9f7f2;
+  --color-success: #6a9e6e;
+  --color-success-content: #1b3022;
+  --color-warning: #edb654;
+  --color-warning-content: #1b3022;
+  --color-error: #b93632;
+  --color-error-content: #f9f7f2;
+
+  --radius-selector: 0.5rem;
+  /* Slightly rounded for organic feel */
 }
 
 /* Theme 3: The Organic Premium 

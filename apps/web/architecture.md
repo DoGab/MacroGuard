@@ -183,6 +183,38 @@ Required colors based on the design system of DaisyUI and TailwindCSS v4:
 |          | Base-200   | Slightly darker/lighter than Base-100. Used for card backgrounds or distinct sections sitting on Base-100.                            |
 |          | Base-300   | Even more distinct. Used for inputs, sidebars, or deeply nested elements.                                                             |
 
+### Dark Organic (Default Dark Theme)
+
+**Best for**: Premium wellness, warm dark mode, users who want a sophisticated dark experience without the cyberpunk aesthetic.
+**Vibe**: "Forest at Night" — A private health club after hours.
+
+This is the dark mode companion to the Organic Premium theme. It inverts the color scheme while maintaining the same warm, premium feel.
+
+- Primary (#C5A059): Burnished Gold. Luxury CTAs with excellent contrast on dark backgrounds.
+- Base (#1B3022): Deep Arboretum. The same anchor green as Organic Premium, now as the background.
+- Secondary (#4E8056): Leaf Green. Natural, calming secondary actions.
+- Accent (#D65A31): Terracotta. Warm highlight color for badges and FABs.
+
+| Category | Color Name   | Hex Code | Explanation                                                 |
+| -------- | ------------ | -------- | ----------------------------------------------------------- |
+| Brand    | Primary      | #C5A059  | Burnished Gold. Premium CTAs, active states.                |
+|          | Secondary    | #4E8056  | Leaf Green. Natural secondary actions.                      |
+|          | Accent       | #D65A31  | Terracotta. Warm highlights, appetite-stimulating.          |
+| State    | Info         | #5F8D8B  | Sage Blue. Calm informational states.                       |
+|          | Success      | #6A9E6E  | Soft Green. Natural success indication.                     |
+|          | Warning      | #EDB654  | Harvest Yellow. Warm warning color.                         |
+|          | Error        | #B93632  | Brick Red. Earthy, attention-grabbing.                      |
+| Surface  | Neutral      | #8B9A8E  | Muted Sage. Secondary text, inactive icons.                 |
+|          | Base-100     | #1B3022  | Deep Arboretum. Main background.                            |
+|          | Base-200     | #243B2C  | Darker Forest. Card backgrounds.                            |
+|          | Base-300     | #2D4A37  | Muted Evergreen. Input fields.                              |
+|          | Base-Content | #F9F7F2  | Cream. Warm off-white text, easier on eyes than pure white. |
+
+- **Pros**: Premium, warm, calming dark mode. Pairs perfectly with Organic Premium for light/dark toggle.
+- **Cons**: Less aggressive/sporty than Bio-Hacker; may not appeal to gym-focused users.
+
+---
+
 ### Suggestion 1 - Bio Hacker
 
 **Best for**: A performance-focused audience tracking macros, gym stats, and hydration. **Vibe**: Nike Training Club meets Cyberpunk. High energy, modern, and distinctively "AI."

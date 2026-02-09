@@ -43,6 +43,10 @@ func (v *ValidationError) Type() string {
 
 // GetLocation returns the location of the error
 func (v *ValidationError) GetLocation() string {
+	if v.Location != "" && v.Field != "" {
+		return fmt.Sprintf("%s.%s", v.Location, v.Field)
+	}
+
 	if v.Location != "" {
 		return v.Location
 	}
@@ -63,7 +67,7 @@ func (v *ValidationError) GetMessage() string {
 }
 
 // NewValidationError creates a new validation error
-func NewValidationError(message string, field string, location string, value any) *ValidationError {
+func NewValidationError(message, field, location string, value any) *ValidationError {
 	return &ValidationError{
 		Message:  message,
 		Field:    field,

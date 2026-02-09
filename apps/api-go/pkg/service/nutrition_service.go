@@ -14,7 +14,7 @@ import (
 )
 
 // ErrNotFood is returned when the image does not contain food
-var ErrNotFood = errors.New("image does not contain food")
+var ErrNotFood = errors.New("that doesn't look like food. Please try again with a different image")
 
 // NutritionService is a service for nutritional information
 type NutritionService struct {

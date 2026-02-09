@@ -142,7 +142,12 @@
       });
 
       if (apiError) {
-        error = apiError.detail || "Failed to scan food. Please try again.";
+        // Check for non-food image (422 error)
+        if (apiError.detail?.includes("does not contain food")) {
+          error = "That doesn't look like food. Please try again with a different image.";
+        } else {
+          error = apiError.detail || "Failed to scan food. Please try again.";
+        }
         return;
       }
 

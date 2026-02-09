@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 
@@ -10,17 +11,20 @@ import (
 	"github.com/firebase/genkit/go/genkit"
 )
 
+// ErrNotFood is returned when the image does not contain food
+var ErrNotFood = errors.New("image does not contain food")
+
 // NutritionService is a service for nutritional information
 type NutritionService struct {
 	genkit *genkit.Genkit
-	flows  map[string]*core.Flow[*ScanInput, *ScanOutput, struct{}]
+	flows  map[flowName]*core.Flow[*ScanInput, *ScanOutput, struct{}]
 }
 
 // NewNutritionService creates a new nutrition service
 func NewNutritionService(genkit *genkit.Genkit) *NutritionService {
 	svc := &NutritionService{
 		genkit: genkit,
-		flows:  map[string]*core.Flow[*ScanInput, *ScanOutput, struct{}]{},
+		flows:  map[flowName]*core.Flow[*ScanInput, *ScanOutput, struct{}]{},
 	}
 	svc.initializeFlows()
 	return svc
@@ -28,8 +32,8 @@ func NewNutritionService(genkit *genkit.Genkit) *NutritionService {
 
 // initializeFlows initializes all AI flows for genkit and stores them in the flows map
 func (s *NutritionService) initializeFlows() {
-	s.flows = map[string]*core.Flow[*ScanInput, *ScanOutput, struct{}]{
-		"foodScanFlow": genkit.DefineFlow(s.genkit, "foodScanFlow", s.foodScanFlow),
+	s.flows = map[flowName]*core.Flow[*ScanInput, *ScanOutput, struct{}]{
+		FoodScanFlow: genkit.DefineFlow(s.genkit, string(FoodScanFlow), s.foodScanFlow),
 	}
 }
 
@@ -37,20 +41,33 @@ func (s *NutritionService) initializeFlows() {
 func (s *NutritionService) ScanFood(ctx context.Context, input *ScanInput) (*ScanOutput, error) {
 	slog.Info("received food scan request", "input", input)
 
-	flow := s.flows["foodScanFlow"]
+	flow := s.flows[FoodScanFlow]
 	response, err := flow.Run(ctx, input)
 	if err != nil {
 		return nil, fmt.Errorf("failed to run food scan flow: %w", err)
 	}
 
-	slog.Info("food scan response", "response", response)
+	slog.Debug("food scan response", "response", response)
+
+	// Check if the image contains food
+	if !response.IsFood {
+		return nil, ErrNotFood
+	}
 
 	return response, nil
 }
 
 func (s *NutritionService) foodScanFlow(ctx context.Context, input *ScanInput) (*ScanOutput, error) {
 	systemPrompt := `You are an expert nutritionist and food recognition AI.
-Analyze the provided food image and estimate its nutritional content.
+Analyze the provided image and determine if it contains food.
+
+FIRST: Determine if the image contains food
+- Set is_food to true if the image contains any food items
+- Set is_food to false if the image does NOT contain food (e.g., objects, people, landscapes, text, documents)
+- Set detected_object to describe what you see (e.g., "Grilled Chicken Salad" or "Laptop computer")
+
+IF THE IMAGE CONTAINS FOOD (is_food = true):
+Proceed with nutritional analysis:
 
 ANALYSIS STEPS:
 1. Identify all visible food items, ingredients, and portion sizes
@@ -60,14 +77,16 @@ ANALYSIS STEPS:
 5. Sum all ingredient macros to get the total meal macros
 
 OUTPUT REQUIREMENTS:
-- food_name: Overall meal/dish name
-- confidence: How clearly the food is identifiable (0.0-1.0)
-- serving_size: Total serving in grams or standard units (e.g., "1 plate, ~350g")
-- macros: Total combined macros for the entire meal
-- ingredients: Array of each component with:
-  - name: Ingredient name (e.g., "Grilled Chicken Breast")
-  - weight_grams: Estimated weight in grams
-  - macros: Individual macros for this ingredient
+- is_food: true if image contains food, false otherwise
+- detected_object: What you see in the image
+- food_name: Overall meal/dish name (empty string if not food)
+- confidence: How clearly the food is identifiable (0.0-1.0, or 0.0 if not food)
+- serving_size: Total serving in grams or standard units (empty if not food)
+- macros: Total combined macros for the entire meal (null if not food)
+- ingredients: Array of each component (empty array if not food)
+
+IF THE IMAGE DOES NOT CONTAIN FOOD (is_food = false):
+Return minimal response with is_food=false and detected_object describing what you see.
 
 GUIDELINES:
 - Always break down complex meals into their visible components
@@ -75,9 +94,9 @@ GUIDELINES:
 - Include fiber in macro calculations when applicable`
 
 	// Build the user prompt text
-	userPrompt := "Analyze this food image and provide nutritional information."
+	userPrompt := "Analyze this image. First determine if it contains food, then provide nutritional information if applicable."
 	if input.Description != nil && *input.Description != "" {
-		userPrompt = fmt.Sprintf("Analyze this food image. Additional context: %s", *input.Description)
+		userPrompt = fmt.Sprintf("Analyze this image. Additional context: %s. First determine if it contains food, then provide nutritional information if applicable.", *input.Description)
 	}
 
 	// Build the image data URL for multimodal input

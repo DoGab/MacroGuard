@@ -2,6 +2,12 @@ package service
 
 import "log/slog"
 
+type flowName string
+
+const (
+	FoodScanFlow flowName = "foodScanFlow"
+)
+
 type ScanInput struct {
 	ImageBase64 string  `json:"image_base64"`
 	Description *string `json:"description,omitempty"`
@@ -44,16 +50,20 @@ func (i *Ingredient) LogValue() slog.Value {
 }
 
 type ScanOutput struct {
-	FoodName    string       `json:"food_name"`
-	Confidence  float64      `json:"confidence"`
-	Macros      *MacroData   `json:"macros"`
-	ServingSize string       `json:"serving_size"`
-	Ingredients []Ingredient `json:"ingredients"`
+	IsFood         bool         `json:"is_food"`         // Whether image contains food
+	DetectedObject string       `json:"detected_object"` // What was detected (for logging)
+	FoodName       string       `json:"food_name"`
+	Confidence     float64      `json:"confidence"`
+	Macros         *MacroData   `json:"macros"`
+	ServingSize    string       `json:"serving_size"`
+	Ingredients    []Ingredient `json:"ingredients"`
 }
 
 // LogValue implements slog.LogValuer for structured logging
 func (s *ScanOutput) LogValue() slog.Value {
 	return slog.GroupValue(
+		slog.Bool("is_food", s.IsFood),
+		slog.String("detected_object", s.DetectedObject),
 		slog.String("food_name", s.FoodName),
 		slog.Float64("confidence", s.Confidence),
 		slog.String("serving_size", s.ServingSize),

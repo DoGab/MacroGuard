@@ -38,6 +38,7 @@
   </div>
   <ul
     tabindex="0"
+    role="menu"
     class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 p-2 shadow-lg mt-2"
   >
     <li class="menu-title">

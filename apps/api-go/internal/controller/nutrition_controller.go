@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/dogab/vitalstack/api/pkg/service"
@@ -45,6 +46,10 @@ func (c *NutritionController) ScanHandler(ctx context.Context, input *ScanInput)
 	}
 	resp, err := c.Service.ScanFood(ctx, req)
 	if err != nil {
+		// Return 422 for non-food images
+		if errors.Is(err, service.ErrNotFood) {
+			return nil, huma.Error422UnprocessableEntity("Image does not contain food")
+		}
 		return nil, err
 	}
 

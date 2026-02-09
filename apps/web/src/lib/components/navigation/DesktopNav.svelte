@@ -1,10 +1,38 @@
 <script lang="ts">
   import { Home, Clock, MessageCircle, User, Plus } from "lucide-svelte";
+  import { browser } from "$app/environment";
   import ThemeSwap from "$lib/components/ui/ThemeSwap.svelte";
   import FontThemeSwap from "$lib/components/ui/FontThemeSwap.svelte";
-  import logoColor from "$lib/assets/logo/logo_text.svg";
+  import logoDark from "$lib/assets/logo/logo_text_dark.svg";
+  import logoLight from "$lib/assets/logo/logo_text_light.svg";
 
   let { addMenuOpen = $bindable() } = $props();
+
+  // Track if current theme is dark
+  let isDarkTheme = $state(true);
+
+  // Determine which logo to use based on theme
+  let currentLogo = $derived(isDarkTheme ? logoLight : logoDark);
+
+  // Watch for theme changes on the html element
+  $effect(() => {
+    if (browser) {
+      const html = document.documentElement;
+      const updateTheme = () => {
+        const theme = html.getAttribute("data-theme");
+        isDarkTheme = theme === "darkorganic" || theme === "biohacker";
+      };
+
+      // Initial check
+      updateTheme();
+
+      // Watch for changes
+      const observer = new MutationObserver(updateTheme);
+      observer.observe(html, { attributes: true, attributeFilter: ["data-theme"] });
+
+      return () => observer.disconnect();
+    }
+  });
 
   const navLinks = [
     { href: "/", label: "Home", icon: Home },
@@ -19,7 +47,7 @@
 >
   <div class="navbar-start">
     <a href="/" class="btn btn-ghost text-xl font-bold gap-2">
-      <img src={logoColor} alt="VitalStack Logo" class="w-45 h-45" />
+      <img src={currentLogo} alt="VitalStack Logo" class="w-45 h-45" />
     </a>
   </div>
 

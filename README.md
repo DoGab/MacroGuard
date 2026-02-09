@@ -1,5 +1,5 @@
 <h1 align="center" style="border-bottom: none">
-    <a href="https://github.com/DoGab/VitalStack" target="_blank"><img alt="VitalStack" src="./apps/web/src/lib/assets/logo/logo_text.svg"></a><br>VitalStack
+    <a href="https://github.com/DoGab/VitalStack" target="_blank"><img alt="VitalStack" src="./apps/web/src/lib/assets/logo/logo_text_dark.svg"></a><br>VitalStack
 </h1>
 
 <p align="center">An AI-powered macro and nutrition scanner application.</p>

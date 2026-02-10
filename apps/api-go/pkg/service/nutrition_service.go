@@ -69,23 +69,31 @@ FIRST: Determine if the image contains food
 - Set detected_object to describe what you see (e.g., "Grilled Chicken Salad" or "Laptop computer")
 
 IF THE IMAGE CONTAINS FOOD (is_food = true):
-Proceed with nutritional analysis:
+Identify each visible ingredient and estimate its individual macros.
 
 ANALYSIS STEPS:
-1. Identify all visible food items, ingredients, and portion sizes
-2. For each ingredient, estimate its weight in grams and calculate individual macros
-3. Consider cooking methods (fried, grilled, steamed, etc.) as they affect calories
-4. Estimate serving sizes relative to standard references (e.g., a fist ≈ 1 cup, palm ≈ 3oz protein)
-5. Sum all ingredient macros to get the total meal macros
+1. Identify all visible food items and ingredients
+2. For each ingredient, estimate its weight in grams
+3. For each ingredient, calculate its individual macros (calories, protein, carbs, fat, fiber)
+4. Consider cooking methods (fried, grilled, steamed) — reflect them in the ingredient macros
+5. Estimate portion sizes relative to standard references (e.g., a fist ≈ 1 cup, palm ≈ 3oz protein)
 
 OUTPUT REQUIREMENTS:
 - is_food: true if image contains food, false otherwise
 - detected_object: What you see in the image
 - food_name: Overall meal/dish name (empty string if not food)
 - confidence: How clearly the food is identifiable (0.0-1.0, or 0.0 if not food)
-- serving_size: Total serving in grams or standard units (empty if not food)
-- macros: Total combined macros for the entire meal (null if not food)
-- ingredients: Array of each component (empty array if not food)
+- ingredients: Array of each component with:
+  - name: Ingredient name (e.g., "Grilled Chicken Breast")
+  - weight_grams: Estimated weight in grams
+  - calories: Calories for this ingredient at the estimated weight
+  - protein: Protein in grams
+  - carbs: Carbohydrates in grams
+  - fat: Fat in grams
+  - fiber: Fiber in grams
+
+IMPORTANT: Do NOT return total macros or serving size. Only return per-ingredient data.
+Total macros will be computed by summing all ingredients.
 
 IF THE IMAGE DOES NOT CONTAIN FOOD (is_food = false):
 Return minimal response with is_food=false and detected_object describing what you see.
@@ -93,12 +101,13 @@ Return minimal response with is_food=false and detected_object describing what y
 GUIDELINES:
 - Always break down complex meals into their visible components
 - Use reasonable middle-ground estimates when portions are unclear
+- Include cooking oils, sauces, and dressings as separate ingredients when visible
 - Include fiber in macro calculations when applicable`
 
 	// Build the user prompt text
-	userPrompt := "Analyze this image. First determine if it contains food, then provide nutritional information if applicable."
+	userPrompt := "Analyze this image. First determine if it contains food, then identify each ingredient with its macros."
 	if input.Description != nil && *input.Description != "" {
-		userPrompt = fmt.Sprintf("Analyze this image. Additional context: %s. First determine if it contains food, then provide nutritional information if applicable.", *input.Description)
+		userPrompt = fmt.Sprintf("Analyze this image. Additional context: %s. First determine if it contains food, then identify each ingredient with its macros.", *input.Description)
 	}
 
 	// Build the image data URL for multimodal input

@@ -34,13 +34,13 @@ func (c *NutritionMockController) ScanHandler(ctx context.Context, input *ScanIn
 			FoodName:   "Grilled Chicken Salad",
 			Confidence: 0.95,
 			Macros: &MacroData{
-				Calories: 485,
-				Protein:  42,
-				Carbs:    28,
-				Fat:      22,
-				Fiber:    8,
+				Calories: 476,
+				Protein:  47,
+				Carbs:    11,
+				Fat:      27,
+				Fiber:    3,
 			},
-			ServingSize: "1 large bowl (~400g)",
+			ServingSize: "400g",
 			Ingredients: []IngredientBody{
 				{
 					Name:        "Grilled Chicken Breast",

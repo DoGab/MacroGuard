@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/dogab/vitalstack/api/pkg/service"
@@ -48,16 +49,19 @@ func (c *NutritionController) ScanHandler(ctx context.Context, input *ScanInput)
 		return nil, convertServiceErrorToHTTPError(err)
 	}
 
+	// Compute totals from ingredients
+	totals := resp.TotalMacros()
+
 	out.Body.FoodName = resp.FoodName
 	out.Body.Confidence = resp.Confidence
 	out.Body.Macros = &MacroData{
-		Calories: resp.Macros.Calories,
-		Protein:  resp.Macros.Protein,
-		Carbs:    resp.Macros.Carbs,
-		Fat:      resp.Macros.Fat,
-		Fiber:    resp.Macros.Fiber,
+		Calories: totals.Calories,
+		Protein:  totals.Protein,
+		Carbs:    totals.Carbs,
+		Fat:      totals.Fat,
+		Fiber:    totals.Fiber,
 	}
-	out.Body.ServingSize = resp.ServingSize
+	out.Body.ServingSize = fmt.Sprintf("%dg", resp.TotalWeight())
 
 	// Map ingredients from service to controller type
 	out.Body.Ingredients = make([]IngredientBody, len(resp.Ingredients))

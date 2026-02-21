@@ -39,7 +39,7 @@ See [architecture.md](architecture.md) for system design, component interactions
 | App | Description | Docs |
 |-----|-------------|------|
 | `apps/api-go` | Go REST API (Gin + Huma + Genkit) | [architecture.md](apps/api-go/architecture.md) |
-| `apps/web` | SvelteKit frontend (TailwindCSS + DaisyUI) | [architecture.md](apps/web/architecture.md) |
+| `apps/web` | SvelteKit frontend (TailwindCSS + Shadcn-svelte) | [architecture.md](apps/web/architecture.md) |
 
 ## Quick Start
 
@@ -68,5 +68,5 @@ make install     # Install all dependencies
 ## Tech Stack
 
 - **Backend:** Go 1.22+, Gin, Huma v2, Genkit
-- **Frontend:** SvelteKit, Svelte 5, TailwindCSS v4, DaisyUI v5
+- **Frontend:** SvelteKit, Svelte 5, TailwindCSS v4, Shadcn-svelte
 - **AI:** Genkit (ready for Gemini/OpenAI integration)

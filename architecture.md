@@ -16,7 +16,7 @@ VitalStack is a **monorepo** containing a Go backend API and a SvelteKit fronten
 │  │    (SvelteKit)       │────────▶│    (Go + Gin)        │          │
 │  │                      │◀────────│                      │          │
 │  │  • TailwindCSS v4    │  JSON   │  • Huma (OpenAPI)    │          │
-│  │  • DaisyUI v5        │         │  • Genkit (AI)       │          │
+│  │  • Shadcn-svelte     │         │  • Genkit (AI)       │          │
 │  │  • PWA               │         │  • Cobra CLI         │          │
 │  └──────────────────────┘         └──────────────────────┘          │
 │         :5173                            :8080                      │
@@ -34,7 +34,7 @@ VitalStack is a **monorepo** containing a Go backend API and a SvelteKit fronten
 |-------|------------|---------|
 | Framework | SvelteKit | Routing, SSR, file-based routing |
 | UI | Svelte 5 | Reactive components with Runes |
-| Styling | TailwindCSS v4 + DaisyUI v5 | Utility CSS + component library |
+| Styling | TailwindCSS v4 + Shadcn-svelte | Utility CSS + component library |
 | Theme | NutriFresh | Custom emerald/orange/cyan palette |
 | PWA | Service Worker | Offline support, installable app |
 

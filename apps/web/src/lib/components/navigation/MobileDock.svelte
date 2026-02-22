@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Home, Clock, MessageCircle, User, Plus } from "lucide-svelte";
+  import { LayoutDashboard, Clock, MessageCircle, User, Plus } from "lucide-svelte";
   import { page } from "$app/stores";
 
   interface Props {
@@ -9,7 +9,7 @@
   let { addMenuOpen = $bindable() }: Props = $props();
 
   const navItems = [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/history", label: "History", icon: Clock },
     { href: "/chat", label: "Chat", icon: MessageCircle },
     { href: "/profile", label: "Profile", icon: User }

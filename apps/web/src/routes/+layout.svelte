@@ -1,33 +1,21 @@
 <script lang="ts">
   import "../app.css";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-  import { Separator } from "$lib/components/ui/separator/index.js";
   import AppSidebar from "$lib/components/navigation/AppSidebar.svelte";
   import MobileDock from "$lib/components/navigation/MobileDock.svelte";
   import AddEntryModal from "$lib/components/navigation/AddEntryModal.svelte";
-  import { browser } from "$app/environment";
-  import logoIconDark from "$lib/assets/logo/logo_dark.svg";
-  import logoIconLight from "$lib/assets/logo/logo_light.svg";
+  import { page } from "$app/stores";
 
-  let { children } = $props();
+  let { data, children } = $props();
   let addMenuOpen = $state(false);
 
-  // Theme-aware logo switching for mobile header
-  let isDarkTheme = $state(true);
-  let mobileLogoIcon = $derived(isDarkTheme ? logoIconLight : logoIconDark);
-
-  $effect(() => {
-    if (browser) {
-      const html = document.documentElement;
-      const updateTheme = () => {
-        const theme = html.getAttribute("data-theme");
-        isDarkTheme = theme === "darkorganic" || !theme;
-      };
-      updateTheme();
-      const observer = new MutationObserver(updateTheme);
-      observer.observe(html, { attributes: true, attributeFilter: ["data-theme"] });
-      return () => observer.disconnect();
-    }
+  let pageTitle = $derived.by(() => {
+    const path = $page.url.pathname;
+    if (path === "/") return "Dashboard";
+    if (path.startsWith("/history")) return "History";
+    if (path.startsWith("/chat")) return "Chat";
+    if (path.startsWith("/profile")) return "Profile";
+    return "Dashboard";
   });
 </script>
 
@@ -43,24 +31,20 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </svelte:head>
 
-<Sidebar.Provider>
+<Sidebar.Provider open={data.sidebarOpen}>
   <AppSidebar bind:addMenuOpen />
 
   <Sidebar.Inset>
     <!-- Unified header: sidebar trigger + mobile logo -->
     <header
-      class="bg-background/80 backdrop-blur-md sticky top-0 z-40 flex h-14 shrink-0 items-center gap-2 border-b border-border px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12"
+      class="bg-background/80 backdrop-blur-md sticky top-0 z-40 flex h-14 shrink-0 items-center gap-2 px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12"
     >
       <Sidebar.Trigger class="-ms-1" />
-      <Separator orientation="vertical" class="me-2 data-[orientation=vertical]:h-4" />
 
-      <!-- Mobile logo: visible only below md -->
-      <a href="/" class="flex items-center gap-2 md:hidden">
-        <img src={mobileLogoIcon} alt="VitalStack" class="size-7" />
-        <span class="font-semibold text-sm" style="font-family: var(--font-heading);"
-          >VitalStack</span
-        >
-      </a>
+      <!-- Display current page name in header -->
+      <h1 class="font-semibold text-lg ml-2" style="font-family: var(--font-heading);">
+        {pageTitle}
+      </h1>
 
       <div class="flex-1"></div>
     </header>

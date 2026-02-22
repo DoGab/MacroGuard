@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    Home,
+    LayoutDashboard,
     Clock,
     MessageCircle,
     User,
@@ -24,6 +24,14 @@
   }
 
   let { addMenuOpen = $bindable() }: Props = $props();
+
+  const sidebar = Sidebar.useSidebar();
+
+  function onNavClick() {
+    if (sidebar.isMobile) {
+      sidebar.setOpenMobile(false);
+    }
+  }
 
   // Track current theme state for logo + theme toggle
   let isDarkTheme = $state(true);
@@ -77,7 +85,7 @@
   }
 
   const navItems = [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/history", label: "History", icon: Clock },
     { href: "/chat", label: "Chat", icon: MessageCircle },
     { href: "/profile", label: "Profile", icon: User }
@@ -130,7 +138,15 @@
             <Sidebar.MenuItem>
               <Sidebar.MenuButton isActive={active} tooltipContent={item.label}>
                 {#snippet child({ props })}
-                  <a href={item.href} {...props}>
+                  <a
+                    href={item.href}
+                    {...props}
+                    onclick={onNavClick}
+                    class={[
+                      props.class,
+                      active && "!bg-primary !text-primary-foreground hover:!bg-primary/90"
+                    ]}
+                  >
                     <Icon />
                     <span>{item.label}</span>
                   </a>
@@ -141,28 +157,30 @@
         </Sidebar.Menu>
       </Sidebar.GroupContent>
     </Sidebar.Group>
-
-    <!-- Add Entry Button -->
-    <Sidebar.Group>
-      <Sidebar.GroupContent>
-        <Sidebar.Menu>
-          <Sidebar.MenuItem>
-            <Sidebar.MenuButton tooltipContent="Add Entry" class="text-primary font-semibold">
-              {#snippet child({ props })}
-                <button {...props} onclick={() => (addMenuOpen = !addMenuOpen)}>
-                  <Plus />
-                  <span>Add Entry</span>
-                </button>
-              {/snippet}
-            </Sidebar.MenuButton>
-          </Sidebar.MenuItem>
-        </Sidebar.Menu>
-      </Sidebar.GroupContent>
-    </Sidebar.Group>
   </Sidebar.Content>
 
   <!-- Footer: User Profile -->
-  <Sidebar.Footer>
+  <Sidebar.Footer
+    class="p-3 group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:space-y-0"
+  >
+    <!-- Add Entry Button -->
+    <Sidebar.Menu>
+      <Sidebar.MenuItem>
+        <Sidebar.MenuButton
+          tooltipContent="Add Entry"
+          class="bg-primary text-primary-foreground font-semibold hover:bg-primary/90 hover:text-primary-foreground !justify-center"
+        >
+          {#snippet child({ props })}
+            <button {...props} onclick={() => (addMenuOpen = !addMenuOpen)}>
+              <Plus class="size-4" />
+              <span class="group-data-[collapsible=icon]:hidden">Add Entry</span>
+            </button>
+          {/snippet}
+        </Sidebar.MenuButton>
+      </Sidebar.MenuItem>
+    </Sidebar.Menu>
+
+    <!-- User Profile -->
     <Sidebar.Menu>
       <Sidebar.MenuItem>
         <Popover.Root>

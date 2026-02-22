@@ -13,6 +13,15 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script>
+      try {
+        const theme = localStorage.getItem("theme");
+        if (theme) document.documentElement.setAttribute("data-theme", theme);
+
+        const fontTheme = localStorage.getItem("font-theme");
+        if (fontTheme) document.documentElement.setAttribute("data-font-theme", fontTheme);
+      } catch (e) {}
+    </script>
     %sveltekit.head%
   </head>
 

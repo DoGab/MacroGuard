@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { Camera, Upload, Loader2, RotateCcw } from "lucide-svelte";
+  import { Camera, Upload, Loader2, RotateCcw, Scale } from "lucide-svelte";
+  import Check from "lucide-svelte/icons/check";
   import { api } from "$lib/api/client";
   import type { components } from "$lib/api/schema";
   import * as Dialog from "$lib/components/ui/dialog";
   import * as Drawer from "$lib/components/ui/drawer";
+  import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import ScanResultsDisplay from "./ScanResultsDisplay.svelte";
@@ -37,16 +39,16 @@
   let fileInput: HTMLInputElement | null = $state(null);
 
   // Dynamic title / description
-  let title = $derived(scanResult ? "Scan Results" : "Scan Food");
-  let subtitle = $derived(
-    scanResult
-      ? "Here's what we found in your meal"
-      : showCamera
-        ? "Point your camera at the food"
-        : imagePreview
-          ? "Review and scan your photo"
-          : "Upload a photo of your meal"
-  );
+  let title = $derived.by(() => {
+    if (scanResult) return scanResult.food_name || "Scan Food";
+    return "Scan Food";
+  });
+  let subtitle = $derived.by(() => {
+    if (scanResult) return "Here's what we found in your meal";
+    if (showCamera) return "Point your camera at the food";
+    if (imagePreview) return "Review and scan your photo";
+    return "Upload a photo of your meal";
+  });
 
   // Initialize camera when opening in camera mode
   $effect(() => {
@@ -283,8 +285,13 @@
 <!-- Shared footer for scan results -->
 {#snippet modalFooter()}
   {#if scanResult}
-    <Button variant="outline" class="w-full" onclick={() => (open = false)}>Close</Button>
-    <Button class="w-full" disabled>Add to Log</Button>
+    <div class="flex w-full gap-2">
+      <Button variant="outline" class="flex-1 px-2 sm:px-4" onclick={() => (open = false)}
+        >Close</Button
+      >
+      <Button variant="outline" class="flex-1 px-2 sm:px-4" onclick={retake}>Rescan</Button>
+      <Button class="flex-1 px-2 sm:px-4" disabled>Add to Log</Button>
+    </div>
   {/if}
 {/snippet}
 
@@ -292,9 +299,30 @@
   <!-- Mobile: Drawer -->
   <Drawer.Root bind:open>
     <Drawer.Content class="max-h-[90vh]">
-      <Drawer.Header>
-        <Drawer.Title>{title}</Drawer.Title>
-        <Drawer.Description>{subtitle}</Drawer.Description>
+      <Drawer.Header class={scanResult ? "text-center pb-2" : ""}>
+        <Drawer.Title class={scanResult ? "text-2xl font-bold font-heading" : ""}
+          >{title}</Drawer.Title
+        >
+        {#if scanResult}
+          <div class="flex items-center justify-center gap-2 mt-1.5">
+            <Badge
+              variant="outline"
+              class="gap-1.5 rounded-full border-green-500/20 bg-green-500/10 text-green-500 hover:bg-green-500/20 font-medium"
+            >
+              <Check class="size-3.5" />
+              {Math.round(scanResult.confidence * 100)}% Match
+            </Badge>
+            <Badge
+              variant="outline"
+              class="gap-1.5 rounded-full text-muted-foreground font-medium bg-secondary/50"
+            >
+              <Scale class="size-3.5" />
+              ~{scanResult.serving_size}
+            </Badge>
+          </div>
+        {:else}
+          <Drawer.Description>{subtitle}</Drawer.Description>
+        {/if}
       </Drawer.Header>
       {@render modalBody()}
       {#if scanResult}
@@ -308,9 +336,30 @@
   <!-- Desktop: Dialog -->
   <Dialog.Root bind:open>
     <Dialog.Content class="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-      <Dialog.Header>
-        <Dialog.Title>{title}</Dialog.Title>
-        <Dialog.Description>{subtitle}</Dialog.Description>
+      <Dialog.Header class={scanResult ? "text-center pb-2" : ""}>
+        <Dialog.Title class={scanResult ? "text-2xl font-bold font-heading text-center" : ""}
+          >{title}</Dialog.Title
+        >
+        {#if scanResult}
+          <div class="flex items-center justify-center gap-2 mt-1.5">
+            <Badge
+              variant="outline"
+              class="gap-1.5 rounded-full border-green-500/20 bg-green-500/10 text-green-500 hover:bg-green-500/20 font-medium"
+            >
+              <Check class="size-3.5" />
+              {Math.round(scanResult.confidence * 100)}% Match
+            </Badge>
+            <Badge
+              variant="outline"
+              class="gap-1.5 rounded-full text-muted-foreground font-medium bg-secondary/50"
+            >
+              <Scale class="size-3.5" />
+              ~{scanResult.serving_size}
+            </Badge>
+          </div>
+        {:else}
+          <Dialog.Description>{subtitle}</Dialog.Description>
+        {/if}
       </Dialog.Header>
       {@render modalBody()}
       {#if scanResult}

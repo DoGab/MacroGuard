@@ -2,7 +2,8 @@
   import { NUTRITION_CONFIG } from "$lib/config/nutrition-config";
   import * as Card from "$lib/components/ui/card";
   import * as Progress from "$lib/components/ui/progress";
-  import { Flame } from "lucide-svelte";
+  import Flame from "lucide-svelte/icons/flame";
+  import CircularProgress from "$lib/components/ui/circular-progress.svelte";
 
   interface MacroData {
     key: string;
@@ -28,16 +29,6 @@
 
   let caloriesRemaining = $derived(caloriesGoal - caloriesConsumed);
   let caloriesPercent = $derived(Math.min((caloriesConsumed / caloriesGoal) * 100, 100));
-
-  // SVG circle math for small calorie ring (Mobile)
-  const SMALL_RADIUS = 28;
-  const CIRCUMFERENCE = 2 * Math.PI * SMALL_RADIUS;
-  let ringOffset = $derived(CIRCUMFERENCE - (caloriesPercent / 100) * CIRCUMFERENCE);
-
-  // SVG circle math for large calorie ring (Desktop)
-  const LARGE_RADIUS = 54;
-  const LARGE_CIRCUMFERENCE = 2 * Math.PI * LARGE_RADIUS;
-  let largeOffset = $derived(LARGE_CIRCUMFERENCE - (caloriesPercent / 100) * LARGE_CIRCUMFERENCE);
 </script>
 
 <div class="space-y-3">
@@ -88,34 +79,15 @@
       </div>
       <Card.Action class="md:hidden">
         <!-- Smaller Calorie ring -->
-        <div class="relative w-14 h-14 shrink-0">
-          <svg class="w-full h-full -rotate-90" viewBox="0 0 64 64">
-            <circle
-              cx="32"
-              cy="32"
-              r={SMALL_RADIUS}
-              fill="none"
-              stroke="currentColor"
-              stroke-width="5"
-              class="text-muted"
-            />
-            <circle
-              cx="32"
-              cy="32"
-              r={SMALL_RADIUS}
-              fill="none"
-              stroke="currentColor"
-              stroke-width="5"
-              stroke-linecap="round"
-              class="text-primary transition-all duration-700"
-              stroke-dasharray={CIRCUMFERENCE}
-              stroke-dashoffset={ringOffset}
-            />
-          </svg>
-          <div class="absolute inset-0 flex items-center justify-center text-primary">
-            <Flame class="size-4" />
-          </div>
-        </div>
+        <CircularProgress
+          class="w-14 h-14 text-primary"
+          size={64}
+          radius={28}
+          strokeWidth={5}
+          percent={caloriesPercent}
+        >
+          <Flame class="size-4" />
+        </CircularProgress>
       </Card.Action>
     </Card.Header>
     <Card.Content>
@@ -133,39 +105,23 @@
           <!-- Large Calorie ring on the left -->
 
           <div class="flex flex-col items-center shrink-0">
-            <div class="relative w-32 h-32">
-              <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
-                <circle
-                  cx="60"
-                  cy="60"
-                  r={LARGE_RADIUS}
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="8"
-                  class="text-muted"
-                />
-                <circle
-                  cx="60"
-                  cy="60"
-                  r={LARGE_RADIUS}
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="8"
-                  stroke-linecap="round"
-                  class="text-primary transition-all duration-700"
-                  stroke-dasharray={LARGE_CIRCUMFERENCE}
-                  stroke-dashoffset={largeOffset}
-                />
-              </svg>
-              <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-2xl font-bold" style="font-family: var(--font-mono);">
-                  {caloriesConsumed.toLocaleString()}
-                </span>
-                <span class="text-[10px] text-muted-foreground uppercase tracking-wider">
-                  of {caloriesGoal.toLocaleString()} kcal
-                </span>
-              </div>
-            </div>
+            <CircularProgress
+              class="w-32 h-32"
+              size={120}
+              radius={54}
+              strokeWidth={8}
+              percent={caloriesPercent}
+            >
+              <span
+                class="text-2xl font-bold text-foreground"
+                style="font-family: var(--font-mono);"
+              >
+                {caloriesConsumed.toLocaleString()}
+              </span>
+              <span class="text-[10px] text-muted-foreground uppercase tracking-wider">
+                of {caloriesGoal.toLocaleString()} kcal
+              </span>
+            </CircularProgress>
           </div>
 
           <!-- Macro progress bars on the right -->

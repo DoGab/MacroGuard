@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { ComponentType } from "svelte";
-  import { UtensilsCrossed, ChevronDown } from "lucide-svelte";
+  import UtensilsCrossed from "lucide-svelte/icons/utensils-crossed";
+  import ChevronDown from "lucide-svelte/icons/chevron-down";
   import Flame from "lucide-svelte/icons/flame";
   import type { components } from "$lib/api/schema";
   import { NUTRITION_CONFIG, getMacroDisplayOrder } from "$lib/config/nutrition-config";
   import * as Card from "$lib/components/ui/card";
   import * as Collapsible from "$lib/components/ui/collapsible";
+  import CircularProgress from "$lib/components/ui/circular-progress.svelte";
 
   type ScanResult = components["schemas"]["ScanOutputBody"];
 
@@ -108,29 +110,11 @@
     return "🍽️";
   }
 
-  // SVG Circular Ring SVG Generation - Svelte Runes Evaluation
-  const SMALL_RADIUS = 28;
-  const CIRCUMFERENCE = 2 * Math.PI * SMALL_RADIUS;
-  const LARGE_RADIUS = 54;
-  const LARGE_CIRCUMFERENCE = 2 * Math.PI * LARGE_RADIUS;
-
   let currentCalPercent = $derived(
     Math.min((CURRENT_INTAKE.calories / NUTRITION_GOALS.calories) * 100, 100)
   );
   let addedCalPercent = $derived(
     Math.min((result.macros.calories / NUTRITION_GOALS.calories) * 100, 100 - currentCalPercent)
-  );
-
-  let ringOffsetCurrentSmall = $derived(CIRCUMFERENCE - (currentCalPercent / 100) * CIRCUMFERENCE);
-  let ringOffsetCombinedSmall = $derived(
-    CIRCUMFERENCE - ((currentCalPercent + addedCalPercent) / 100) * CIRCUMFERENCE
-  );
-
-  let ringOffsetCurrentLarge = $derived(
-    LARGE_CIRCUMFERENCE - (currentCalPercent / 100) * LARGE_CIRCUMFERENCE
-  );
-  let ringOffsetCombinedLarge = $derived(
-    LARGE_CIRCUMFERENCE - ((currentCalPercent + addedCalPercent) / 100) * LARGE_CIRCUMFERENCE
   );
 </script>
 
@@ -190,50 +174,16 @@
       </div>
 
       <!-- Smaller Calorie ring (Mobile) -->
-      <div class="relative w-14 h-14 shrink-0 md:hidden block">
-        <svg class="w-full h-full -rotate-90" viewBox="0 0 64 64">
-          <!-- Background -->
-          <circle
-            cx="32"
-            cy="32"
-            r={SMALL_RADIUS}
-            fill="none"
-            stroke="currentColor"
-            stroke-width="5"
-            class="text-muted"
-          />
-          <!-- Lighter Combined Variant -->
-          <circle
-            cx="32"
-            cy="32"
-            r={SMALL_RADIUS}
-            fill="none"
-            stroke="currentColor"
-            stroke-width="5"
-            stroke-linecap="round"
-            class="text-primary/40 transition-all duration-700"
-            stroke-dasharray={CIRCUMFERENCE}
-            stroke-dashoffset={ringOffsetCombinedSmall}
-          />
-          <!-- Darker Core Current -->
-          <circle
-            cx="32"
-            cy="32"
-            r={SMALL_RADIUS}
-            fill="none"
-            stroke="currentColor"
-            stroke-width="5"
-            stroke-linecap="round"
-            class="text-primary transition-all duration-700"
-            stroke-dasharray={CIRCUMFERENCE}
-            stroke-dashoffset={ringOffsetCurrentSmall}
-            style="z-index: 10"
-          />
-        </svg>
-        <div class="absolute inset-0 flex items-center justify-center text-primary">
-          <Flame class="size-4" />
-        </div>
-      </div>
+      <CircularProgress
+        class="w-14 h-14 md:hidden block text-primary shrink-0"
+        size={64}
+        radius={28}
+        strokeWidth={5}
+        percent={currentCalPercent}
+        addedPercent={addedCalPercent}
+      >
+        <Flame class="size-4" />
+      </CircularProgress>
     </Card.Header>
     <Card.Content>
       <!-- Mobile Layout -->
@@ -245,51 +195,19 @@
       <div class="hidden md:flex flex-row items-center gap-8">
         <!-- Large Calorie ring on the left -->
         <div class="flex flex-col items-center shrink-0">
-          <div class="relative w-32 h-32">
-            <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
-              <circle
-                cx="60"
-                cy="60"
-                r={LARGE_RADIUS}
-                fill="none"
-                class="text-muted"
-                stroke="currentColor"
-                stroke-width="8"
-              />
-              <!-- Lighter Combined Overlay -->
-              <circle
-                cx="60"
-                cy="60"
-                r={LARGE_RADIUS}
-                fill="none"
-                stroke="currentColor"
-                stroke-width="8"
-                stroke-linecap="round"
-                class="text-primary/40 transition-all duration-700"
-                stroke-dasharray={LARGE_CIRCUMFERENCE}
-                stroke-dashoffset={ringOffsetCombinedLarge}
-              />
-              <!-- Core current stroke -->
-              <circle
-                cx="60"
-                cy="60"
-                r={LARGE_RADIUS}
-                fill="none"
-                stroke="currentColor"
-                stroke-width="8"
-                stroke-linecap="round"
-                class="text-primary transition-all duration-700"
-                stroke-dasharray={LARGE_CIRCUMFERENCE}
-                stroke-dashoffset={ringOffsetCurrentLarge}
-              />
-            </svg>
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <Flame class="size-6 text-primary mb-1" />
-              <span class="text-2xl font-bold" style="font-family: var(--font-mono);">
-                +{formatMacro(result.macros.calories)}
-              </span>
-            </div>
-          </div>
+          <CircularProgress
+            class="w-32 h-32"
+            size={120}
+            radius={54}
+            strokeWidth={8}
+            percent={currentCalPercent}
+            addedPercent={addedCalPercent}
+          >
+            <Flame class="size-6 text-primary mb-1" />
+            <span class="text-2xl font-bold text-foreground" style="font-family: var(--font-mono);">
+              +{formatMacro(result.macros.calories)}
+            </span>
+          </CircularProgress>
         </div>
 
         <!-- Macro progress bars on the right -->

@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { Camera, Upload, Zap } from "lucide-svelte";
+  import Camera from "lucide-svelte/icons/camera";
+  import Upload from "lucide-svelte/icons/upload";
+  import Zap from "lucide-svelte/icons/zap";
   import * as Dialog from "$lib/components/ui/dialog";
   import * as Drawer from "$lib/components/ui/drawer";
   import { Button } from "$lib/components/ui/button";

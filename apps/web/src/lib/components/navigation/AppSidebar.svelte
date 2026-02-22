@@ -1,16 +1,14 @@
 <script lang="ts">
-  import {
-    LayoutDashboard,
-    Clock,
-    MessageCircle,
-    User,
-    Plus,
-    ChevronsUpDown,
-    LogOut,
-    Sun,
-    Moon,
-    Type
-  } from "lucide-svelte";
+  import LayoutDashboard from "lucide-svelte/icons/layout-dashboard";
+  import Clock from "lucide-svelte/icons/clock";
+  import MessageCircle from "lucide-svelte/icons/message-circle";
+  import User from "lucide-svelte/icons/user";
+  import Plus from "lucide-svelte/icons/plus";
+  import ChevronsUpDown from "lucide-svelte/icons/chevrons-up-down";
+  import LogOut from "lucide-svelte/icons/log-out";
+  import Sun from "lucide-svelte/icons/sun";
+  import Moon from "lucide-svelte/icons/moon";
+  import Type from "lucide-svelte/icons/type";
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";

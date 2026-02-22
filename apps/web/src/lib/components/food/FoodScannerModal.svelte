@@ -1,7 +1,12 @@
 <script lang="ts">
-  import { Camera, Upload, Loader2, RotateCcw, Scale } from "lucide-svelte";
+  import Camera from "lucide-svelte/icons/camera";
+  import Upload from "lucide-svelte/icons/upload";
+  import Loader2 from "lucide-svelte/icons/loader-2";
+  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
+  import Scale from "lucide-svelte/icons/scale";
   import Check from "lucide-svelte/icons/check";
   import { api } from "$lib/api/client";
+  import { useCamera } from "$lib/hooks/use-camera.svelte";
   import type { components } from "$lib/api/schema";
   import * as Dialog from "$lib/components/ui/dialog";
   import * as Drawer from "$lib/components/ui/drawer";
@@ -30,9 +35,9 @@
   let scanResult: ScanResult | null = $state(null);
   let error: string | null = $state(null);
 
-  // Camera refs
+  // Camera state
+  const camera = useCamera();
   let videoElement: HTMLVideoElement | null = $state(null);
-  let streamRef: MediaStream | null = $state(null);
   let showCamera = $state(false);
 
   // File input ref
@@ -75,30 +80,23 @@
   }
 
   async function startCamera() {
-    try {
-      error = null;
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" }
-      });
-      streamRef = stream;
+    error = null;
+    await camera.start();
+    if (camera.error) {
+      error = camera.error;
+    } else {
       showCamera = true;
 
       // Wait for video element to be available
       await new Promise((resolve) => setTimeout(resolve, 100));
-      if (videoElement) {
-        videoElement.srcObject = stream;
+      if (videoElement && camera.stream) {
+        videoElement.srcObject = camera.stream;
       }
-    } catch (err) {
-      error = "Could not access camera. Please check permissions.";
-      console.error("Camera error:", err);
     }
   }
 
   function stopCamera() {
-    if (streamRef) {
-      streamRef.getTracks().forEach((track) => track.stop());
-      streamRef = null;
-    }
+    camera.stop();
     showCamera = false;
   }
 

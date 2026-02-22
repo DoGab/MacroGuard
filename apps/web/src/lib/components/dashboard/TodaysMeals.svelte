@@ -1,7 +1,9 @@
 <script lang="ts">
   import * as Card from "$lib/components/ui/card";
   import { Badge } from "$lib/components/ui/badge";
-  import { Flame, Clock, UtensilsCrossed } from "lucide-svelte";
+  import Flame from "lucide-svelte/icons/flame";
+  import Clock from "lucide-svelte/icons/clock";
+  import UtensilsCrossed from "lucide-svelte/icons/utensils-crossed";
 
   interface Meal {
     name: string;

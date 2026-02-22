@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { LayoutDashboard, Clock, MessageCircle, User, Plus } from "lucide-svelte";
+  import LayoutDashboard from "lucide-svelte/icons/layout-dashboard";
+  import Clock from "lucide-svelte/icons/clock";
+  import MessageCircle from "lucide-svelte/icons/message-circle";
+  import User from "lucide-svelte/icons/user";
+  import Plus from "lucide-svelte/icons/plus";
   import { page } from "$app/stores";
 
   interface Props {
